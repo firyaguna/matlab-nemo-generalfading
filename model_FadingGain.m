@@ -14,6 +14,8 @@ switch m.model
             (1-nlos).*random( 'nakagami', m.Nakagami.m.LOS(hold),1, v_size );
         % power gain
         gain = gain.^2; 
+    case 'KappaMu'
+        gain = model_KappaMuFadingGain( m.KappaMu.kappa, m.KappaMu.mu, v_size );
     otherwise
         gain = ones(v_size);
 end
