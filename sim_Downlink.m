@@ -50,6 +50,12 @@ function [ sinr ] = sim_Downlink( sim )
     [ ~, servingAP_id_minDist ] = min( sim.distance2d );
     
     % DIRECTIVITY GAIN
+    % Probabilities of beam alignment
+    probMM = sim.mainLobeGainTx * sim.mainLobeGainRx / (2*pi)^2;                  % both aligned
+    probMm = (sim.mainLobeGainTx / (2*pi))*(1 - sim.mainLobeGainRx / (2*pi));     % tx aligned only
+    probmM = (1 - sim.mainLobeGainTx / (2*pi))*(sim.mainLobeGainRx / (2*pi));     % rx aligned only
+    probmm = (1 - sim.mainLobeGainTx / (2*pi))*(1 - sim.mainLobeGainRx / (2*pi)); % none aligned
+    sim.probBeamAlignment = [probMM, probMm, probmM, probmm];
     rxPower = rxPower .* sim.DirectivityGain( ...,...
                             size(rxPower),...
                             servingAP_id_minDist,...
@@ -62,7 +68,6 @@ function [ sinr ] = sim_Downlink( sim )
     % -------------------- WITH FADING ------------------------
     % INTERFERENCE
     interfPower_minDist = rxPower;
-
     % serving AP is not interferer
     interfPower_minDist( servingAP_id_minDist ) = 0;
 

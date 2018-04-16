@@ -31,7 +31,7 @@ sim.p0_dB = 68.011; % dB
 sim.attenuationExponent = 2;
 
 % FADING
-sim.fadingModel.model = 'Rayleigh'; % Rayleigh or Nakagami
+sim.fadingModel.model = 'KappaMu'; % KappaMu, Rayleigh or Nakagami
 % Rayleigh fading parameter
 sim.fadingModel.Exponential.mean = 1;
 % Nakagami fading parameters
